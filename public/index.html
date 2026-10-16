@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IT support desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>IT support desk</h1>
+    <p>Log a fault, then watch it move from open to resolved.</p>
+    <div id="stats" aria-live="polite"></div>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="formTitle">
+      <h2 id="formTitle">Log a request</h2>
+      <form id="requestForm">
+        <input type="hidden" id="requestId">
+        <label>Your name <input id="requesterName" required autocomplete="name" placeholder="Thandi Nkosi"></label>
+        <label>Issue <input id="title" placeholder="Laptop won't boot" required></label>
+        <label>Details <textarea id="description" rows="4" placeholder="What happened, and when did it start?" required></textarea></label>
+        <div class="row">
+          <label>Type
+            <select id="category">
+              <option>Hardware</option><option>Software</option><option>Network</option><option>Accounts and access</option><option>Security</option><option>Other</option>
+            </select>
+          </label>
+          <label>Priority
+            <select id="priority">
+              <option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option>
+            </select>
+          </label>
+        </div>
+        <div class="row buttons">
+          <button type="submit" id="submitBtn" class="btn primary">Create request</button>
+          <button type="button" id="cancelBtn" class="btn ghost" hidden>Cancel</button>
+        </div>
+        <p id="message" role="status"></p>
+      </form>
+    </section>
+
+    <section class="requests" aria-labelledby="listTitle">
+      <h2 id="listTitle">Request queue</h2>
+      <div id="list"></div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+### Works with the VS Code "REST Client" extension. Also copy these into Postman/Thunder Client.
+
+### Health check
+GET http://localhost:3000/api/health
+
+### GET all
+GET http://localhost:3000/api/requests
+
+### GET all, filtered
+GET http://localhost:3000/api/requests?status=open
+
+### GET one
+GET http://localhost:3000/api/requests/1
+
+### POST - create (expect 201)
+POST http://localhost:3000/api/requests
+Content-Type: application/json
+
+{
+  "requesterName": "Thandi",
+  "title": "Broken light",
+  "description": "Hallway light does not turn on.",
+  "category": "Electrical",
+  "priority": "high"
+}
+
+### POST - invalid (expect 400)
+POST http://localhost:3000/api/requests
+Content-Type: application/json
+
+{ "title": "" }
+
+### PUT - replace (expect 200)
+PUT http://localhost:3000/api/requests/1
+Content-Type: application/json
+
+{
+  "requesterName": "Sample User",
+  "title": "Leaking tap (updated)",
+  "description": "Now also dripping under the sink.",
+  "category": "Plumbing",
+  "priority": "high",
+  "status": "in-progress"
+}
+
+### PATCH - partial update (expect 200)
+PATCH http://localhost:3000/api/requests/1
+Content-Type: application/json
+
+{ "status": "resolved" }
+
+### DELETE (expect 204)
+DELETE http://localhost:3000/api/requests/1
+
+### GET missing (expect 404)
+GET http://localhost:3000/api/requests/999
