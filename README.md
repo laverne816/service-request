@@ -1,9 +1,14 @@
-# Service Request API (Week 5)
+# Service Request API
 
 A basic REST API built with Node.js and Express that lets users create, view, update and delete service requests, with a small front-end form connected to it.
 
 ## Live Demo 
 https://laverne816.github.io/service-request/public/index.html
+
+
+## Screenshot
+<img width="1567" height="760" alt="image" src="https://github.com/user-attachments/assets/61242a56-4557-4dc9-bc57-6d352b740bb5" />
+
 
 ## Setup
 ```bash
