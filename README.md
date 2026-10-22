@@ -7,7 +7,8 @@ https://service-request-q648.onrender.com/
 
 
 ## Screenshot
-<img width="1537" height="748" alt="image" src="https://github.com/user-attachments/assets/91cc11e7-2e59-422e-aeee-5722f8ccd9f8" />
+<img width="1164" height="755" alt="image" src="https://github.com/user-attachments/assets/ad315c27-34f3-4e8a-adb5-1fd2c5eb7497" />
+
 
 
 ## Setup
