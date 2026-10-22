@@ -115,7 +115,7 @@ async function load() {
     list.innerHTML = items.slice().reverse().map((r) => `
       <article class="item p-${r.priority}">
         <div class="head">
-          <span class="tid">INC-${String(r.id).padStart(4, '0')}</span>
+          <span class="tid">#${String(r.id).padStart(4, '0')}</span>
           <span class="meter" role="img" aria-label="${r.priority} priority"><i></i><i></i><i></i></span>
         </div>
         <h3>${esc(r.title)}</h3>
@@ -165,7 +165,7 @@ list.addEventListener('click', async (e) => {
       const r = await api(`${API}/${editId}`);
       $('requestId').value = r.id; $('requesterName').value = r.requesterName; $('title').value = r.title;
       $('description').value = r.description; $('category').value = r.category; $('priority').value = r.priority;
-      $('formTitle').textContent = `Edit INC-${String(r.id).padStart(4, '0')}`;
+      $('formTitle').textContent = `Edit #${String(r.id).padStart(4, '0')}`;
       $('submitBtn').textContent = 'Save changes';
       cancelBtn.hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -182,7 +182,7 @@ list.addEventListener('change', async (e) => {
   if (!id) return;
   try {
     await api(`${API}/${id}`, { method: 'PATCH', body: JSON.stringify({ status: e.target.value }) });
-    show(`INC-${String(id).padStart(4, '0')} moved to ${e.target.value}.`, 'ok');
+    show(`#${String(id).padStart(4, '0')} moved to ${e.target.value}.`, 'ok');
     load();
   } catch (err) { show(err.message, 'error'); }
 });
