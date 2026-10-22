@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IT support desk</title>
+  <meta name="theme-color" content="#080d15">
+  <title>Service desk — Northstar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,33 +12,54 @@
 </head>
 <body>
   <header class="top">
-    <h1>IT support desk</h1>
-    <p>Log a fault, then watch it move from open to resolved.</p>
-    <div id="stats" aria-live="polite"></div>
+    <div class="masthead">
+      <a class="brand" href="/" aria-label="Northstar service desk home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Northstar <span class="brand-divider">/</span> Service desk</span>
+      </a>
+      <span class="desk-status"><i></i> Here to help</span>
+    </div>
+    <div class="intro">
+      <div>
+        <p class="eyebrow">A good place to start</p>
+        <h1>Something not working?<br><span>Let’s sort it out.</span></h1>
+        <p class="intro-copy">Tell us a little about it. We’ll get your request to the right person.</p>
+      </div>
+      <div class="queue-summary">
+        <span class="summary-label">Your team’s queue</span>
+        <div id="stats" aria-live="polite"></div>
+      </div>
+    </div>
   </header>
 
   <main>
     <section class="panel" aria-labelledby="formTitle">
-      <h2 id="formTitle">Log a request</h2>
+      <div class="section-heading">
+        <span class="step">01</span>
+        <div>
+          <h2 id="formTitle">Tell us what’s up</h2>
+          <p>We’ll take it from here.</p>
+        </div>
+      </div>
       <form id="requestForm">
         <input type="hidden" id="requestId">
-        <label>Your name <input id="requesterName" required autocomplete="name" placeholder="Thandi Nkosi"></label>
-        <label>Issue <input id="title" placeholder="Laptop won't boot" required></label>
-        <label>Details <textarea id="description" rows="4" placeholder="What happened, and when did it start?" required></textarea></label>
+        <label>Your name <input id="requesterName" required autocomplete="name" placeholder="How should we address you?"></label>
+        <label>What’s the issue? <input id="title" placeholder="A short summary" required></label>
+        <label>A few more details <textarea id="description" rows="4" placeholder="What happened? Anything you’ve already tried?" required></textarea></label>
         <div class="row">
-          <label>Type
+          <label>Area
             <select id="category">
               <option>Hardware</option><option>Software</option><option>Network</option><option>Accounts and access</option><option>Security</option><option>Other</option>
             </select>
           </label>
-          <label>Priority
+          <label>How urgent?
             <select id="priority">
               <option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option>
             </select>
           </label>
         </div>
         <div class="row buttons">
-          <button type="submit" id="submitBtn" class="btn primary">Create request</button>
+          <button type="submit" id="submitBtn" class="btn primary">Send request <span aria-hidden="true">↗</span></button>
           <button type="button" id="cancelBtn" class="btn ghost" hidden>Cancel</button>
         </div>
         <p id="message" role="status"></p>
@@ -45,10 +67,46 @@
     </section>
 
     <section class="requests" aria-labelledby="listTitle">
-      <h2 id="listTitle">Request queue</h2>
+      <div class="requests-heading">
+        <div>
+          <p class="eyebrow">A little progress, together</p>
+          <h2 id="listTitle">On the radar</h2>
+        </div>
+        <span class="updates-note"><i></i> Live updates</span>
+      </div>
       <div id="list"></div>
     </section>
   </main>
+  <aside class="help-widget" aria-label="Service desk help">
+    <section class="help-panel" id="helpPanel" aria-labelledby="helpTitle" hidden>
+      <div class="help-header">
+        <span class="help-avatar" aria-hidden="true">N</span>
+        <div>
+          <h2 id="helpTitle">A little help?</h2>
+          <p>Quick answers from the service desk</p>
+        </div>
+        <button class="help-close" id="helpClose" type="button" aria-label="Close help chat">×</button>
+      </div>
+      <div class="chat-messages" id="chatMessages" aria-live="polite" aria-relevant="additions text">
+        <p class="chat-bubble bot">Hi! I can help you find your way around. What would you like to know?</p>
+      </div>
+      <div class="chat-suggestions" aria-label="Common questions">
+        <button type="button" data-question="How do I create a request?">Create a request</button>
+        <button type="button" data-question="How do I check my request status?">Check a status</button>
+        <button type="button" data-question="What if this is urgent?">Something is urgent</button>
+      </div>
+      <form class="chat-form" id="chatForm">
+        <label class="sr-only" for="chatInput">Ask a question</label>
+        <input id="chatInput" name="question" autocomplete="off" placeholder="Type a question…" required>
+        <button class="chat-send" type="submit" aria-label="Send question">↑</button>
+      </form>
+      <p class="chat-note">Quick help, not a live agent. Don’t share passwords or sensitive details.</p>
+    </section>
+    <button class="help-toggle" id="helpToggle" type="button" aria-expanded="false" aria-controls="helpPanel">
+      <span class="help-toggle-icon" aria-hidden="true">?</span>
+      <span>Need a hand?</span>
+    </button>
+  </aside>
   <script src="app.js"></script>
 </body>
 </html>

@@ -5,9 +5,89 @@ const list = document.getElementById('list');
 const stats = document.getElementById('stats');
 const message = document.getElementById('message');
 const cancelBtn = document.getElementById('cancelBtn');
+const helpToggle = document.getElementById('helpToggle');
+const helpPanel = document.getElementById('helpPanel');
+const helpClose = document.getElementById('helpClose');
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+const chatMessages = document.getElementById('chatMessages');
 const $ = (id) => document.getElementById(id);
 
 function show(text, type) { message.textContent = text; message.className = type; }
+
+function chatReply(question) {
+  const text = question.toLowerCase();
+  if (/\b(password|passcode|otp|sensitive)\b/.test(text)) {
+    return 'Please don’t share passwords, one-time codes, or sensitive information here. For account access, choose “Accounts and access” on the request form.';
+  }
+  if (/\b(urgent|emergency|priority|critical|down)\b/.test(text)) {
+    return 'If work is blocked, choose High under “How urgent?” when you send your request, and explain who or what is affected. For a security concern, choose Security and mark it high priority.';
+  }
+  if (/\b(status|track|tracking|where|progress|update)\b/.test(text)) {
+    return 'Your requests appear under “On the radar”. Each card shows its current status; if you need to add context, use Edit on that request.';
+  }
+  if (/\b(edit|change|update|delete|cancel)\b/.test(text)) {
+    return 'Find your request under “On the radar”. Choose Edit to change its details, or use the status menu to update its progress. You can remove a request with Delete.';
+  }
+  if (/\b(create|new|submit|send|request|log|start)\b/.test(text)) {
+    return 'Fill in your name, a short summary, and a few details, then choose an area and urgency. Hit “Send request” and it will appear under “On the radar”.';
+  }
+  if (/\b(human|person|agent|contact|talk|help)\b/.test(text)) {
+    return 'I’m the quick-help guide, not a live agent. Send a request using the form and include how the service desk can follow up with you.';
+  }
+  return 'I can help with creating a request, checking its status, editing it, or choosing urgency. Try one of the suggestions below.';
+}
+
+function addChatMessage(text, sender) {
+  const bubble = document.createElement('p');
+  bubble.className = `chat-bubble ${sender}`;
+  bubble.textContent = text;
+  chatMessages.appendChild(bubble);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function closeChat() {
+  helpPanel.hidden = true;
+  helpToggle.setAttribute('aria-expanded', 'false');
+}
+
+helpToggle.addEventListener('click', () => {
+  const isOpening = helpPanel.hidden;
+  helpPanel.hidden = !isOpening;
+  helpToggle.setAttribute('aria-expanded', String(isOpening));
+  if (isOpening) chatInput.focus();
+});
+
+helpClose.addEventListener('click', () => {
+  closeChat();
+  helpToggle.focus();
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !helpPanel.hidden) {
+    closeChat();
+    helpToggle.focus();
+  }
+});
+
+function sendChatMessage(question) {
+  const trimmed = question.trim();
+  if (!trimmed) return;
+  addChatMessage(trimmed, 'user');
+  addChatMessage(chatReply(trimmed), 'bot');
+}
+
+chatForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  sendChatMessage(chatInput.value);
+  chatInput.value = '';
+  chatInput.focus();
+});
+
+document.querySelector('.chat-suggestions').addEventListener('click', (event) => {
+  const button = event.target.closest('[data-question]');
+  if (button) sendChatMessage(button.dataset.question);
+});
 
 async function api(url, options = {}) {
   const res = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...options });
@@ -20,7 +100,7 @@ async function api(url, options = {}) {
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 function renderStats(items) {
-  if (!items.length) { stats.innerHTML = ''; return; }
+  if (!items.length) { stats.innerHTML = '<p class="stats-empty">Nothing waiting right now.</p>'; return; }
   const n = (s) => items.filter((i) => i.status === s).length;
   stats.innerHTML =
     `<div class="bar">${STATUSES.map((s) => n(s) ? `<span class="seg ${s}" style="flex:${n(s)}"></span>` : '').join('')}</div>` +
@@ -31,7 +111,7 @@ async function load() {
   try {
     const items = await api(API);
     renderStats(items);
-    if (!items.length) { list.innerHTML = '<p class="empty">The queue is clear. Log the first request using the form.</p>'; return; }
+    if (!items.length) { list.innerHTML = '<p class="empty">Nothing on the radar yet. If something needs attention, tell us about it and we’ll take it from here.</p>'; return; }
     list.innerHTML = items.slice().reverse().map((r) => `
       <article class="item p-${r.priority}">
         <div class="head">
@@ -57,8 +137,8 @@ async function load() {
 function resetForm() {
   form.reset();
   $('requestId').value = '';
-  $('formTitle').textContent = 'Log a request';
-  $('submitBtn').textContent = 'Create request';
+  $('formTitle').textContent = 'Tell us what’s up';
+  $('submitBtn').textContent = 'Send request';
   cancelBtn.hidden = true;
 }
 
