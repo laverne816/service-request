@@ -102,9 +102,11 @@
       </form>
       <p class="chat-note">Quick help, not a live agent. Don’t share passwords or sensitive details.</p>
     </section>
-    <button class="help-toggle" id="helpToggle" type="button" aria-expanded="false" aria-controls="helpPanel">
-      <span class="help-toggle-icon" aria-hidden="true">?</span>
-      <span>Need a hand?</span>
+    <button class="help-toggle" id="helpToggle" type="button" aria-label="Toggle help chat" aria-expanded="false" aria-controls="helpPanel">
+      <svg class="help-toggle-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+        <path d="M5 18.5 3.75 21l4.1-1.45A8.6 8.6 0 0 0 12 20.5c4.7 0 8.5-3.58 8.5-8s-3.8-8-8.5-8-8.5 3.58-8.5 8c0 2.35.98 4.47 2.55 6Z" />
+        <path d="M8 12.5h.01M12 12.5h.01M16 12.5h.01" />
+      </svg>
     </button>
   </aside>
   <script src="app.js"></script>

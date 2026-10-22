@@ -134,10 +134,10 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { border-color
 .empty { padding: 30px 22px; border: 1px dashed rgba(157, 185, 197, .2); border-radius: 12px; background: rgba(17, 25, 37, .4); color: #9caeab; font-size: .84rem; text-align: center; }
 
 .help-widget { position: fixed; z-index: 5; right: 26px; bottom: 24px; display: flex; flex-direction: column; align-items: flex-end; gap: 13px; }
-.help-toggle { display: inline-flex; min-height: 50px; align-items: center; gap: 10px; padding: 0 17px 0 10px; border: 1px solid rgba(157, 255, 233, .3); border-radius: 99px; background: linear-gradient(110deg, #8cebd7, #68d8c5); color: #08221f; box-shadow: 0 7px 28px rgba(0, 0, 0, .35), 0 0 26px rgba(91, 217, 192, .23); cursor: pointer; font: 600 .8rem var(--font-head); transition: transform .18s, box-shadow .18s; }
+.help-toggle { display: grid; width: 54px; height: 54px; place-items: center; padding: 0; border: 1px solid rgba(157, 255, 233, .3); border-radius: 50%; background: linear-gradient(110deg, #8cebd7, #68d8c5); color: #08221f; box-shadow: 0 7px 28px rgba(0, 0, 0, .35), 0 0 26px rgba(91, 217, 192, .23); cursor: pointer; transition: transform .18s, box-shadow .18s; }
 .help-toggle:hover { transform: translateY(-2px); box-shadow: 0 9px 32px rgba(0, 0, 0, .4), 0 0 32px rgba(91, 217, 192, .32); }
 .help-toggle:focus-visible, .help-close:focus-visible, .chat-suggestions button:focus-visible, .chat-send:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
-.help-toggle-icon { display: grid; width: 29px; height: 29px; place-items: center; border: 1px solid rgba(8, 34, 31, .2); border-radius: 50%; background: rgba(255, 255, 255, .23); font-size: 1rem; }
+.help-toggle-icon { width: 25px; height: 25px; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
 .help-panel { display: flex; width: min(360px, calc(100vw - 32px)); max-height: min(520px, calc(100vh - 112px)); flex-direction: column; overflow: hidden; border: 1px solid rgba(161, 197, 195, .22); border-radius: 16px; background: linear-gradient(145deg, rgba(21, 32, 44, .98), rgba(10, 18, 27, .98)); box-shadow: 0 18px 65px rgba(0, 0, 0, .5), 0 0 36px rgba(54, 151, 137, .1); }
 .help-panel[hidden] { display: none; }
 .help-header { display: flex; align-items: center; gap: 11px; padding: 16px; border-bottom: 1px solid var(--line); }
