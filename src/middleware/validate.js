@@ -1,4 +1,4 @@
-const PRIORITIES = ['low', 'medium', 'high'];
+const PRIORITIES = ['low', 'medium', 'high', 'urgent'];
 const STATUSES = ['open', 'in-progress', 'resolved', 'closed'];
 
 const isText = (v) => typeof v === 'string' && v.trim().length > 0;

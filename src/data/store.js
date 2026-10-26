@@ -7,7 +7,7 @@ let requests = [
     category: 'Network',
     priority: 'medium',
     status: 'open',
-    requesterName: 'Sample User',
+    requesterName: 'Anthony',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   }

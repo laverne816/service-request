@@ -3,112 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080d15">
-  <title>Service desk — Northstar</title>
+  <meta name="theme-color" content="#080D15">
+  <title>Requests — Northstar Service desk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="top">
-    <div class="masthead">
-      <a class="brand" href="/" aria-label="Northstar service desk home">
-        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span>Northstar <span class="brand-divider">/</span> Service desk</span>
-      </a>
-      <span class="desk-status"><i></i> Here to help</span>
-    </div>
-    <div class="intro">
-      <div>
-        <p class="eyebrow">A good place to start</p>
-        <h1>Something not working?<br><span>Let’s sort it out.</span></h1>
-        <p class="intro-copy">Tell us a little about it. We’ll get your request to the right person.</p>
-      </div>
-      <div class="queue-summary">
-        <span class="summary-label">Your team’s queue</span>
-        <div id="stats" aria-live="polite"></div>
-      </div>
-    </div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Northstar Service desk home">Northstar <span>Service desk</span></a>
+    <span class="signed-in">IT staff</span>
   </header>
 
   <main>
-    <section class="panel" aria-labelledby="formTitle">
-      <div class="section-heading">
-        <span class="step">01</span>
-        <div>
-          <h2 id="formTitle">Tell us what’s up</h2>
-          <p>We’ll take it from here.</p>
-        </div>
+    <div class="page-heading">
+      <div class="heading-copy">
+        <p class="page-kicker">Service operations</p>
+        <h1>Requests<span class="title-period">.</span></h1>
+        <p class="page-caption">Your team's working queue.</p>
       </div>
-      <form id="requestForm">
-        <input type="hidden" id="requestId">
-        <label>Your name <input id="requesterName" required autocomplete="name" placeholder="How should we address you?"></label>
-        <label>What’s the issue? <input id="title" placeholder="A short summary" required></label>
-        <label>A few more details <textarea id="description" rows="4" placeholder="What happened? Anything you’ve already tried?" required></textarea></label>
-        <div class="row">
-          <label>Area
-            <select id="category">
-              <option>Hardware</option><option>Software</option><option>Network</option><option>Accounts and access</option><option>Security</option><option>Other</option>
-            </select>
-          </label>
-          <label>How urgent?
-            <select id="priority">
-              <option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option>
-            </select>
-          </label>
-        </div>
-        <div class="row buttons">
-          <button type="submit" id="submitBtn" class="btn primary">Send request <span aria-hidden="true">↗</span></button>
-          <button type="button" id="cancelBtn" class="btn ghost" hidden>Cancel</button>
-        </div>
-        <p id="message" role="status"></p>
-      </form>
-    </section>
-
-    <section class="requests" aria-labelledby="listTitle">
-      <div class="requests-heading">
-        <div>
-          <p class="eyebrow">A little progress, together</p>
-          <h2 id="listTitle">On the radar</h2>
-        </div>
-        <span class="updates-note"><i></i> Live updates</span>
+      <div class="open-indicator" aria-live="polite">
+        <span>Open now</span>
+        <strong id="openCount">—</strong>
       </div>
-      <div id="list"></div>
+      <button class="button primary" id="newRequest" type="button">New request</button>
+    </div>
+    <nav class="filters" id="filters" aria-label="Filter requests"></nav>
+    <p class="toast" id="message" role="status" aria-live="polite"></p>
+    <section aria-label="Request queue">
+      <div class="table-wrap" id="list"></div>
     </section>
   </main>
-  <aside class="help-widget" aria-label="Service desk help">
-    <section class="help-panel" id="helpPanel" aria-labelledby="helpTitle" hidden>
-      <div class="help-header">
-        <span class="help-avatar" aria-hidden="true">N</span>
+
+  <dialog class="request-dialog" id="requestDialog" aria-labelledby="formTitle">
+    <div class="dialog-heading">
+      <div>
+        <h2 id="formTitle">New request</h2>
+        <p>Share the details so the service desk can help.</p>
+      </div>
+      <button class="icon-button" id="closeDialog" type="button" aria-label="Close request form">×</button>
+    </div>
+    <form id="requestForm">
+      <input type="hidden" id="requestId">
+      <label for="requesterName">Your name</label>
+      <input id="requesterName" name="requesterName" required autocomplete="name">
+
+      <label for="title">What's the issue?</label>
+      <input id="title" name="title" required maxlength="160">
+
+      <label for="description">Describe what happened and what you've tried</label>
+      <textarea id="description" name="description" rows="5" required></textarea>
+
+      <div class="form-row">
         <div>
-          <h2 id="helpTitle">A little help?</h2>
-          <p>Quick answers from the service desk</p>
+          <label for="category">Area</label>
+          <select id="category" name="category">
+            <option>Hardware</option>
+            <option>Software</option>
+            <option>Network</option>
+            <option>Accounts and access</option>
+            <option>Security</option>
+            <option>Other</option>
+          </select>
         </div>
-        <button class="help-close" id="helpClose" type="button" aria-label="Close help chat">×</button>
+        <div>
+          <label for="priority">Urgency</label>
+          <select id="priority" name="priority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
       </div>
-      <div class="chat-messages" id="chatMessages" aria-live="polite" aria-relevant="additions text">
-        <p class="chat-bubble bot">Hi! I can help you find your way around. What would you like to know?</p>
+
+      <div class="form-actions">
+        <button class="button primary" type="submit" id="submitBtn">Send request</button>
+        <button class="button secondary" type="button" id="cancelBtn">Cancel</button>
       </div>
-      <div class="chat-suggestions" aria-label="Common questions">
-        <button type="button" data-question="How do I create a request?">Create a request</button>
-        <button type="button" data-question="How do I check my request status?">Check a status</button>
-        <button type="button" data-question="What if this is urgent?">Something is urgent</button>
-      </div>
-      <form class="chat-form" id="chatForm">
-        <label class="sr-only" for="chatInput">Ask a question</label>
-        <input id="chatInput" name="question" autocomplete="off" placeholder="Type a question…" required>
-        <button class="chat-send" type="submit" aria-label="Send question">↑</button>
-      </form>
-      <p class="chat-note">Quick help, not a live agent. Don’t share passwords or sensitive details.</p>
-    </section>
-    <button class="help-toggle" id="helpToggle" type="button" aria-label="Toggle help chat" aria-expanded="false" aria-controls="helpPanel">
-      <svg class="help-toggle-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
-        <path d="M5 18.5 3.75 21l4.1-1.45A8.6 8.6 0 0 0 12 20.5c4.7 0 8.5-3.58 8.5-8s-3.8-8-8.5-8-8.5 3.58-8.5 8c0 2.35.98 4.47 2.55 6Z" />
-        <path d="M8 12.5h.01M12 12.5h.01M16 12.5h.01" />
-      </svg>
-    </button>
-  </aside>
+    </form>
+  </dialog>
   <script src="app.js"></script>
 </body>
 </html>

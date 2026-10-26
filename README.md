@@ -1,6 +1,6 @@
 # Service Request API
 
-A basic REST API built with Node.js and Express that lets users create, view, update and delete service requests, with a small front-end form connected to it.
+A basic REST API built with Node.js and Express that lets users create, view, update and delete service requests, with a queue-focused front end connected to it.
 
 ## Live Demo 
 [https://service-request-q648.onrender.com/](https://service-request-1-ar6u.onrender.com/)
@@ -42,7 +42,7 @@ Errors: `400` validation/invalid JSON, `404` not found, `500` server error.
   "status": "open"
 }
 ```
-Required: `requesterName`, `title`, `description`. `priority`: low | medium | high. `status`: open | in-progress | resolved | closed.
+Required: `requesterName`, `title`, `description`. `priority`: low | medium | high | urgent. `status`: open | in-progress | resolved | closed.
 
 ## Testing
 Use `tests/api.http` (VS Code REST Client) or import the requests into Postman / Thunder Client. Or with curl:
